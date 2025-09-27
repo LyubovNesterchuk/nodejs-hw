@@ -8,7 +8,7 @@ import { logger } from "./middleware/logger.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
-import notesRoutes from "./notes/notesRoutes.js";
+import notesRoutes from "./routes/notesRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
