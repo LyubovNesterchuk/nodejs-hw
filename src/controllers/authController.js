@@ -5,6 +5,7 @@ import { User } from "../models/user.js";
 import { createSession, setSessionCookies } from "../services/auth.js";
 import { Session } from "../models/session.js";
 
+
 export const registerUser = async(req, res, next) => {
   const {email, password } = req.body;
 
@@ -23,8 +24,7 @@ export const registerUser = async(req, res, next) => {
   const newSession = await createSession(newUser._id);
   setSessionCookies(res, newSession);
 
-  res.status(201).json({newUser});
-
+  res.status(201).json(newUser);
 };
 
 
@@ -74,7 +74,7 @@ export const refreshUserSession = async(req, res, next) => {
     return next(createHttpError(401, "Session not found"));
   };
 
-  const isSessionTokenExpired = new Date > new Date(session.refreshTokenValidUntil);
+  const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
   if(isSessionTokenExpired){
     return next(createHttpError(401, "Session token expired"));
   };
