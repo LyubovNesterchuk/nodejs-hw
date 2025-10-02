@@ -8,8 +8,11 @@ export const errorHandler = (error, req, res, next) => {
     });
   }
 
+  const isProd = process.env.NODE_ENV==="production";
+
   console.error(error);
+
   res.status(500).json({
-    message:error.message,
+    message: isProd ? "Something went wrong" : error.message,
   });
 };
