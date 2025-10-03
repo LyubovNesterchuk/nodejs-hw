@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 
+const DEFAULT_AVATAR_URL = "https://ac.goit.global/fullstack/react/default-avatar.jpg";
+
 const userSchema = new Schema(
   {
     username: {
@@ -18,7 +20,7 @@ const userSchema = new Schema(
     avatar: {
       type: String,
       required: false,
-      default: "<https://ac.goit.global/fullstack/react/default-avatar.jpg>",
+      default: DEFAULT_AVATAR_URL,
     },
   },
   {
@@ -28,9 +30,14 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", function(next) {
-  if(!this.username) {
+  if (!this.username) {
     this.username = this.email;
   }
+
+  if (!this.avatar) {
+    this.avatar = DEFAULT_AVATAR_URL;
+  }
+
   next();
 });
 
