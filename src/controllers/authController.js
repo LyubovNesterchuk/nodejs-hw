@@ -101,12 +101,11 @@ export const refreshUserSession = async(req, res, next) => {
 };
 
 
-
-export const requestResetEmail = async(req, res, next) => {
+export const requestResetEmail = async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
 
-   if (!user) {
+  if (!user) {
     return next(createHttpError(404, 'User not found'));
   }
 
@@ -116,11 +115,11 @@ export const requestResetEmail = async(req, res, next) => {
     { expiresIn: '15m' },
   );
 
-	const templatePath = path.resolve('src/templates/reset-password-email.html');
+  const templatePath = path.resolve('src/templates/reset-password-email.html');
   const templateSource = await fs.readFile(templatePath, 'utf-8');
   const template = handlebars.compile(templateSource);
   const html = template({
-    name: user.username,
+    name: user.username || user.email, 
     link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
   });
 
@@ -131,15 +130,16 @@ export const requestResetEmail = async(req, res, next) => {
       subject: 'Reset your password',
       html,
     });
-  } catch {
-    return next(createHttpError(500, 'Failed to send the email, please try again later.'));
+
+    return res.status(200).json({
+      message: 'Password reset email has been sent',
+    });
+
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    return next(createHttpError(500, 'Failed to send reset email, please try again later.'));
   }
-
-  res.status(200).json({
-    message: 'Password reset successfully',
-  });
 };
-
 
 
 export const resetPassword = async (req, res, next) => {
