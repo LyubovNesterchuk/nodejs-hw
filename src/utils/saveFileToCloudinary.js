@@ -17,6 +17,11 @@ export async function saveFileToCloudinary(buffer) {
         overwrite: true,
         unique_filename: true,
         use_filename: false,
+
+        transformation: [
+          { aspect_ratio: '1:1', gravity: 'auto', width: 500, crop: 'auto' },
+          { radius: 'max' }, 
+        ],
       },
       (err, result) => (err ? reject(err) : resolve(result)),
     );

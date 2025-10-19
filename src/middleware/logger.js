@@ -5,7 +5,8 @@ export const logger = pino({
   transport: {
     target: 'pino-pretty',
     options: {
-      colorize: true,
+      // colorize: true,
+      colorize: false,
       translateTime: 'HH:MM:ss',
       ignore: 'pid,hostname',
       messageFormat: '{req.method} {req.url} {res.statusCode} - {responseTime}ms',
