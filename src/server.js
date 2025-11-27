@@ -19,13 +19,7 @@ const PORT = process.env.PORT ?? 3030;
 
 app.use(logger);
 app.use(express.json());
-// app.use(cors());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true,
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-}));
+app.use(cors());
 app.use(cookieParser());
 
 app.use(authRoutes);

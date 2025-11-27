@@ -119,7 +119,7 @@ export const requestResetEmail = async (req, res, next) => {
   const templateSource = await fs.readFile(templatePath, 'utf-8');
   const template = handlebars.compile(templateSource);
   const html = template({
-    name: user.username || user.email, 
+    name: user.username || user.email,
     link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
   });
 
@@ -169,3 +169,7 @@ export const resetPassword = async (req, res, next) => {
     message: 'Password reset successfully. Please log in again.',
   });
 };
+
+
+
+
