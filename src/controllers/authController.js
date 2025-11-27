@@ -171,5 +171,19 @@ export const resetPassword = async (req, res, next) => {
 };
 
 
-
+export const checkSession = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      user: {
+        _id: req.user._id,
+        email: req.user.email,
+        username: req.user.username,
+        avatar: req.user.avatar,
+      }
+    });
+  } catch {
+    res.status(401).json({ success: false });
+  }
+};
 
