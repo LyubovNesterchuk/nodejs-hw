@@ -36,19 +36,46 @@ export const updateMe = async (req, res, next) => {
 };
 
 
+// export const updateUserAvatar = async (req, res, next) => {
+//   if (!req.file) {
+//     next(createHttpError(400, 'No file'));
+//     return;
+//   }
+
+//   const result = await saveFileToCloudinary(req.file.buffer);
+
+//   const user = await User.findByIdAndUpdate(
+//     req.user._id,
+//     { avatar: result.secure_url },
+//     { new: true },
+//   );
+
+//   res.status(200).json({ url: user.avatar });
+// };
 export const updateUserAvatar = async (req, res, next) => {
-  if (!req.file) {
-    next(createHttpError(400, 'No file'));
-    return;
+  try {
+    if (!req.file) {
+      return next(createHttpError(400, "No file"));
+    }
+
+   
+    const result = await saveFileToCloudinary(req.file.buffer);
+
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { avatar: result.secure_url },
+      { new: true }
+    ).select("-password");
+
+
+    res.status(200).json({
+      message: "Avatar updated successfully",
+      avatar: user.avatar,
+      url: user.avatar,
+      user,
+    });
+  } catch (error) {
+    next(error);
   }
-
-  const result = await saveFileToCloudinary(req.file.buffer);
-
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { avatar: result.secure_url },
-    { new: true },
-  );
-
-  res.status(200).json({ url: user.avatar });
 };

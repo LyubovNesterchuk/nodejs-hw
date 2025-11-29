@@ -21,12 +21,21 @@ export const createSession = async(userId) => {
 
 export const setSessionCookies = (res, session) => {
 
-  res.cookie("accessToken", session.accessToken,{
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: FIFTEEN_MINUTES,
-  });
+  // res.cookie("accessToken", session.accessToken,{
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: "none",
+  //   maxAge: FIFTEEN_MINUTES,
+  // });
+
+const isDev = process.env.NODE_ENV !== "production";
+
+res.cookie("accessToken", session.accessToken, {
+  httpOnly: true,
+  secure: !isDev,             // false у dev, true у production
+  sameSite: isDev ? "lax" : "none",
+  maxAge: FIFTEEN_MINUTES,
+});
 
   res.cookie("refreshToken", session.refreshToken, {
     httpOnly: true,

@@ -18,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT ?? 3030;
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://09-auth-ochre-kappa.vercel.app',
+  'https://note-hub-alpha.vercel.app',
 ];
 
 app.get('/', (req, res) => {
@@ -33,7 +33,7 @@ app.use(
     origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 
