@@ -8,10 +8,6 @@ export const getAllNotes = async (req, res) => {
 
   const notesQuery = Note.find({ userId: req.user._id });
 
-  // if (tag) {
-  //   notesQuery.where("tag").equals(tag);
-  // }
-
   if (tag && tag !== "All") {
   notesQuery.where("tag").equals(tag);
 }
