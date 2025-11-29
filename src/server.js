@@ -17,10 +17,10 @@ import userRoutes from "./routes/userRoutes.js";
 const app = express();
 
 const PORT = process.env.PORT ?? 3030;
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://note-hub-alpha.vercel.app',
-];
+// const allowedOrigins = [
+//   'http://localhost:3000',
+//   'https://note-hub-alpha.vercel.app',
+// ];
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to NoteHub API' });
@@ -30,15 +30,33 @@ app.use(logger);
 // app.use(helmet());
 
 app.use(express.json());
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//   }),
+// );
 app.use(
   cors({
-    origin: allowedOrigins,
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }),
-);
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
 
+      const allowedOrigins = [
+        "http://localhost:3000",
+        "https://note-hub-alpha.vercel.app",
+      ];
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS blocked: " + origin), false);
+    },
+  })
+);
 app.use(cookieParser());
 
 app.use(authRoutes);
