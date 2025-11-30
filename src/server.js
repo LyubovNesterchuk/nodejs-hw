@@ -41,9 +41,10 @@ app.use(
 
 app.use(cookieParser());
 
-app.use(authRoutes);
-app.use(notesRoutes);
-app.use(userRoutes);
+app.use("/api", authRoutes);
+app.use("/api", notesRoutes);
+app.use("/api", userRoutes);
+
 
 app.use(notFoundHandler);
 app.use(errors());
