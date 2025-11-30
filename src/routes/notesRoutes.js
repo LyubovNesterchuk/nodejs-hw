@@ -7,13 +7,13 @@ import { getAllNotesSchema, noteIdSchema, createNoteSchema, updateNoteSchema } f
 
 const router = Router();
 
-router.use("/notes", authenticate);
+router.use("/api/notes", authenticate);
 
-router.get("/notes", celebrate(getAllNotesSchema), getAllNotes);
-router.get("/notes/:noteId", celebrate(noteIdSchema), getNoteById);
-router.post("/notes", celebrate(createNoteSchema), createNote);
-router.patch("/notes/:noteId", celebrate(updateNoteSchema), updateNote);
-router.delete("/notes/:noteId", celebrate(noteIdSchema), deleteNote);
+router.get("/api/notes", celebrate(getAllNotesSchema), getAllNotes);
+router.get("/api/notes/:noteId", celebrate(noteIdSchema), getNoteById);
+router.post("/api/notes", celebrate(createNoteSchema), createNote);
+router.patch("/api/notes/:noteId", celebrate(updateNoteSchema), updateNote);
+router.delete("/api/notes/:noteId", celebrate(noteIdSchema), deleteNote);
 
 export default router;
 

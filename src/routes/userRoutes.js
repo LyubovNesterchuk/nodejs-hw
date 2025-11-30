@@ -6,8 +6,8 @@ import { getMe, updateMe, updateUserAvatar } from "../controllers/userController
 
 const router = Router();
 
-router.get("/users/me", authenticate, getMe);
-router.patch("/users/me", authenticate, updateMe);
-router.patch("/users/me/avatar", authenticate, upload.single("avatar"), updateUserAvatar);
+router.get("/api/users/me", authenticate, getMe);
+router.patch("/api/users/me", authenticate, updateMe);
+router.patch("/api/users/me/avatar", authenticate, upload.single("avatar"), updateUserAvatar);
 
 export default router;
